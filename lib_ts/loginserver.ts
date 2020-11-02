@@ -230,6 +230,8 @@ export class LoginServer extends EventEmitter {
             case "CharacterDeleteRequest":
               const characters_delete_info: any = {
                 characterId: (packet.result as any).characterId,
+                status:1,
+                Payload:"\0"
               };
               data = this._protocol.pack(
                 "CharacterDeleteReply",
@@ -261,6 +263,7 @@ export class LoginServer extends EventEmitter {
                     }
                   );
               }
+              break;
             case "CharacterLoginRequest":
               let charactersLoginInfo: any;
               const { serverId, characterId } = packet.result;
@@ -278,7 +281,7 @@ export class LoginServer extends EventEmitter {
                     serverTicket: "7y3Bh44sKWZCYZH",
                     encryptionKey: this._cryptoKey,
                     characterId: characterId,
-                    unknown1: 722776196,
+                    guid: 722776196,
                     unknown2: 0,
                     stationName: "nope0no",
                     characterName: "LocalPlayer", // get character name from the characterID (ask db)
@@ -296,7 +299,7 @@ export class LoginServer extends EventEmitter {
                     serverTicket: "7y3Bh44sKWZCYZH",
                     encryptionKey: this._cryptoKey,
                     characterId: characterId,
-                    unknown1: 722776196,
+                    guid: 722776196, 
                     unknown2: 0,
                     stationName: "nope0no",
                     characterName: "LocalPlayer",
