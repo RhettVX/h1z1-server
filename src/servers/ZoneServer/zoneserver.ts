@@ -158,8 +158,8 @@ export class ZoneServer extends EventEmitter {
         )*/
 
         this.sendData(client, "InitializationParameters", {
-          environment: "local",
-          serverId: 1,
+          environment: "dev",
+          serverId: 101,
         });
 
         /*
@@ -179,42 +179,14 @@ export class ZoneServer extends EventEmitter {
         this.setReferenceData(referenceData);
         */
         this.sendData(client, "SendZoneDetails", {
-          zoneName: "Z1",
-          unknownBoolean1: true,
-          zoneType: 4,
-          unknownFloat1: 1,
-          skyData: {
-            name: "sky",
-            unknownDword1: 0,
-            unknownDword2: 0,
-            unknownDword3: 0,
-            fog: 0, // fog intensity
-            unknownDword5: 0,
-            unknownDword6: 0,
-            unknownDword7: 0,
-            unknownDword8: 0,
-            temperature: 40, // 0 : snow map , 40+ : spring map
-            unknownDword10: 0,
-            unknownDword11: 0,
-            unknownDword12: 0,
-            unknownDword13: 0,
-            unknownDword14: 0,
-            unknownDword15: 0,
-            unknownDword16: 0, // sun orientation on x axis ???
-            unknownDword17: 0, // night when 100
-            unknownDword18: 0,
-            unknownDword19: 0,
-            unknownDword20: 0,
-            unknownDword21: 0,
-            unknownDword22: 0,
-            unknownDword23: 0,
-            unknownDword24: 0,
-            unknownDword25: 0,
-            unknownArray: [],
-          },
-          zoneId1: 3905829720,
-          zoneId2: 3905829720,
-          nameId: 7699,
+          zoneName: "VR",
+          unknownDword1: 4,
+          unknownBoolean1: false,
+          unknownString2: "",
+          unknownByte3: 0,
+          zoneId1: 98,
+          zoneId2: 98,
+          nameId: 557721,
           unknownBoolean7: true,
         });
 
@@ -256,6 +228,7 @@ export class ZoneServer extends EventEmitter {
         });
       }
     });
+
 
     this._gatewayServer.on(
       "login",

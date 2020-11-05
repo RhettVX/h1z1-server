@@ -132,20 +132,18 @@ export class LoginServer extends EventEmitter {
         } else {
           servers = [
             {
-              serverId: 1,
+              serverId: 101,
               serverState: 0,
               locked: false,
-              name: "fuckdb",
-              nameId: 1,
-              description: "yeah",
-              descriptionId: 1,
+              name: "Local",
+              nameId: 7699,
+              description: "Local Server",
+              descriptionId: 7699,
               reqFeatureId: 0,
-              serverInfo:
-                'Region="CharacterCreate.RegionUs" PingAddress="127.0.0.1:1117" Subregion="UI.SubregionUS" IsRecommended="1" IsRecommendedVS="0" IsRecommendedNC="0" IsRecommendedTR="0"',
+              serverInfo: "<ServerInfo Region=\"CharacterCreate.RegionUs\" Subregion=\"UI.SubregionUSEast\" IsRecommended=\"1\" />",
               populationLevel: 1,
-              populationData:
-                'ServerCapacity="0" PingAddress="127.0.0.1:1117" Rulesets="Permadeath"',
-              allowedAccess: true,
+              populationData: "<Population ServerCapacity=\"0\" PingAddress=\"127.0.0.1:1117\"><factionlist IsList=\"1\"><faction Id=\"1\" Percent=\"0\" TargetPopPct=\"0\" RewardBuff=\"52\" XPBuff=\"52\" PercentAvg=\"0\"/><faction Id=\"2\" Percent=\"0\" TargetPopPct=\"1\" RewardBuff=\"0\" XPBuff=\"0\" PercentAvg=\"0\"/><faction Id=\"3\" Percent=\"0\" TargetPopPct=\"1\" RewardBuff=\"0\" XPBuff=\"0\" PercentAvg=\"1\"/></factionlist></Population>",
+              allowedAccess: true
             },
           ];
         }
