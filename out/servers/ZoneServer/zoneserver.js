@@ -205,7 +205,7 @@ var ZoneServer = /** @class */ (function (_super) {
                 state: {
                     position: [0, 0, 0, 0],
                     rotation: [0, 0, 0, 0],
-                    health: 0,
+                    health: 100,
                     shield: 0,
                 },
                 client: client,
