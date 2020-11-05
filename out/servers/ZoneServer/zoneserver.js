@@ -66,6 +66,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ZoneServer = void 0;
 var events_1 = require("events");
 var gatewayserver_1 = require("../GatewayServer/gatewayserver");
+var fs_1 = __importDefault(require("fs"));
 var zonepackethandlers_1 = __importDefault(require("./zonepackethandlers"));
 var h1z1protocol_1 = require("../../protocols/h1z1protocol");
 // import {MongoClient} from "mongodb"
@@ -119,32 +120,23 @@ var ZoneServer = /** @class */ (function (_super) {
             }
             else {
                 debug("zone login");
-                /*
-              this.sendRawData(
-                client,
-                fs.readFileSync(
-                  `${__dirname}/data/zone/ReferenceData.WeaponDefinitions.dat`
-                )*/
-                _this.sendData(client, "InitializationParameters", {
-                    environment: "dev",
-                    serverId: 101,
-                });
-                /*
-                var itemData = fs.readFileSync(
-                  `${__dirname}../../../data/ClientItemDefinitions.txt`, // TODO : fix this path
-                    "utf8"
-                  ),
-                  itemLines = itemData.split("\n"),
-                  items = {};
+                // Weapon Definitions
+                _this.sendRawData(client, fs_1.default.readFileSync(__dirname + "/../../../data/ReferenceData.WeaponDefinitions.dat"));
+                // this.sendData(client, "InitializationParameters", {
+                //   environment: "dev",
+                //   serverId: 101,
+                // });
+                _this.sendRawData(client, fs_1.default.readFileSync(__dirname + "/../../../data/InitializationParameters.dat"));
+                var itemData = fs_1.default.readFileSync(__dirname + "/../../../data/ClientItemDefinitions.txt", // TODO : fix this path
+                "utf8"), itemLines = itemData.split("\n"), items = {};
                 for (var i = 1; i < itemLines.length; i++) {
-                  var line = itemLines[i].split("^");
-                  if (line[0]) {
-                    (items as any)[line[0]] = line[1];
-                  }
+                    var line = itemLines[i].split("^");
+                    if (line[0]) {
+                        items[line[0]] = line[1];
+                    }
                 }
-                const referenceData = { itemTypes: items };
-                this.setReferenceData(referenceData);
-                */
+                var referenceData = { itemTypes: items };
+                _this.setReferenceData(referenceData);
                 _this.sendData(client, "SendZoneDetails", {
                     zoneName: "VR",
                     unknownDword1: 4,
@@ -156,9 +148,10 @@ var ZoneServer = /** @class */ (function (_super) {
                     nameId: 557721,
                     unknownBoolean7: true,
                 });
-                _this.sendData(client, "ClientUpdate.ZonePopulation", {
-                    populations: [0, 0],
-                });
+                // this.sendData(client, "ClientUpdate.ZonePopulation", {
+                //   populations: [0, 0],
+                // });
+                _this.sendRawData(client, fs_1.default.readFileSync(__dirname + "/../../../data/ClientUpdateZonePopulation.dat"));
                 _this.sendData(client, "ClientUpdate.RespawnLocations", {
                     unknownFlags: 0,
                     locations: [],

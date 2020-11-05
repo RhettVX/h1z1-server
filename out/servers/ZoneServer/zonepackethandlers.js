@@ -35,12 +35,7 @@ var packetHandlers = {
             unknownBoolean1: 1,
         });
         server.sendData(client, "ClientUpdate.UpdateStat", { stats: [] });
-        /*
-        server.sendRawData(
-          client,
-          fs.readFileSync(`${__dirname}/data/zone/ActivityManagerProfileList.dat`)
-        );
-        */
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/ActivityManagerProfileList.dat"));
         server.sendData(client, "Operation.ClientClearMissions", {});
         server.sendData(client, "ZoneSetting.Data", {
             settings: [
@@ -84,58 +79,15 @@ var packetHandlers = {
             gameTime: (server.getServerTime() & 0xffffffff) >>> 0,
         });
         server.sendGameTimeSync(client);
-        /*
-        server.sendRawData(
-          client,
-          fs.readFileSync(
-            `${__dirname}/data/zone/CommandEnableCompositeEffects.dat`
-          )
-        );
-        server.sendRawData(
-          client,
-          fs.readFileSync(
-            `${__dirname}/data/zone/ReferenceData.ItemClassDefinitions.dat`
-          )
-        );
-        server.sendRawData(
-          client,
-          fs.readFileSync(
-            `${__dirname}/data/zone/ReferenceData.ItemCategoryDefinitions.dat`
-          )
-        );
-        server.sendRawData(
-          client,
-          fs.readFileSync(
-            `${__dirname}/data/zone/ReferenceData.ClientProfileData.dat`
-          )
-        );
-        server.sendRawData(
-          client,
-          fs.readFileSync(
-            `${__dirname}/data/zone/ReferenceData.ProjectileDefinitions.dat`
-          )
-        );
-        server.sendRawData(
-          client,
-          fs.readFileSync(`${__dirname}/data/zone/FacilityReferenceData.dat`)
-        );
-        server.sendRawData(
-          client,
-          fs.readFileSync(
-            `${__dirname}/data/zone/ItemsLoadItemRentalDefinitionManager.dat`
-          )
-        );
-        server.sendRawData(
-          client,
-          fs.readFileSync(`${__dirname}/data/zone/AbilityAddAbilityDefinition.dat`)
-        );
-        server.sendRawData(
-          client,
-          fs.readFileSync(
-            `${__dirname}/data/zone/AbilitiesSetAbilityActivationManager.dat`
-          )
-        );
-        */
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/CommandEnableCompositeEffects.dat"));
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/ReferenceData.ItemClassDefinitions.dat"));
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/ReferenceData.ItemCategoryDefinitions.dat"));
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/ReferenceData.ClientProfileData.dat"));
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/ReferenceData.ProjectileDefinitions.dat"));
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/FacilityReferenceData.dat"));
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/ItemsLoadItemRentalDefinitionManager.dat"));
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/AbilityAddAbilityDefinition.dat"));
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/AbilitiesSetAbilityActivationManager.dat"));
         client.character.currentLoadoutId = 3;
         server.sendData(client, "Loadout.SetCurrentLoadout", {
             type: 2,
@@ -144,14 +96,7 @@ var packetHandlers = {
             tabId: 256,
             unknown2: 1,
         });
-        /*
-        server.sendRawData(
-          client,
-          fs.readFileSync(
-            `${__dirname}/data/zone/PointOfInterestDefinitionReply.dat`
-          )
-        );
-        */
+        server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/PointOfInterestDefinitionReply.dat"));
         server.sendData(client, "ZoneDoneSendingInitialData", {});
         var commands = [
             "hax",

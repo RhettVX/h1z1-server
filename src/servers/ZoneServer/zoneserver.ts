@@ -150,21 +150,25 @@ export class ZoneServer extends EventEmitter {
         console.error(err);
       } else {
         debug("zone login");
-        /*
-      this.sendRawData(
-        client,
-        fs.readFileSync(
-          `${__dirname}/data/zone/ReferenceData.WeaponDefinitions.dat`
-        )*/
 
-        this.sendData(client, "InitializationParameters", {
-          environment: "dev",
-          serverId: 101,
-        });
+        // Weapon Definitions
+        this.sendRawData(
+          client, 
+          fs.readFileSync(`${__dirname}/../../../data/ReferenceData.WeaponDefinitions.dat`)
+        );
 
-        /*
+        // this.sendData(client, "InitializationParameters", {
+        //   environment: "dev",
+        //   serverId: 101,
+        // });
+        this.sendRawData(
+          client, 
+          fs.readFileSync(`${__dirname}/../../../data/InitializationParameters.dat`)
+        );
+
+        
         var itemData = fs.readFileSync(
-          `${__dirname}../../../data/ClientItemDefinitions.txt`, // TODO : fix this path
+          `${__dirname}/../../../data/ClientItemDefinitions.txt`, // TODO : fix this path
             "utf8"
           ),
           itemLines = itemData.split("\n"),
@@ -177,7 +181,7 @@ export class ZoneServer extends EventEmitter {
         }
         const referenceData = { itemTypes: items };
         this.setReferenceData(referenceData);
-        */
+        
         this.sendData(client, "SendZoneDetails", {
           zoneName: "VR",
           unknownDword1: 4,
@@ -190,9 +194,13 @@ export class ZoneServer extends EventEmitter {
           unknownBoolean7: true,
         });
 
-        this.sendData(client, "ClientUpdate.ZonePopulation", {
-          populations: [0, 0],
-        });
+        // this.sendData(client, "ClientUpdate.ZonePopulation", {
+        //   populations: [0, 0],
+        // });
+        this.sendRawData(
+          client,
+          fs.readFileSync(`${__dirname}/../../../data/ClientUpdateZonePopulation.dat`)
+        );
 
         this.sendData(client, "ClientUpdate.RespawnLocations", {
           unknownFlags: 0,
