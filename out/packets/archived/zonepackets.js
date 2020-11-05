@@ -2877,7 +2877,7 @@ var packets = [
                         { name: "unknownQword2", type: "uint64" },
                         { name: "unknownQword3", type: "uint64" },
                         { name: "unknownDword39", type: "uint32" },
-                        { name: "unknownDword40", type: "uint32" },
+                        // { name: "unknownDword40", type: "uint32" },
                         { name: "unknownBoolean9", type: "boolean" },
                     ],
                 },
