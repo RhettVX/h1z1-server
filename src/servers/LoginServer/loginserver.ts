@@ -228,7 +228,7 @@ export class LoginServer extends EventEmitter {
             case "ServerListRequest":
               {
                 let rawdata = fs.readFileSync(`${__dirname}/../../../data/serverlist.json`, 'utf8');
-                let data = this._protocol.pack("ServerListRequest", JSON.parse(rawdata));
+                let data = this._protocol.pack("ServerListReply", JSON.parse(rawdata));
                 this._soeServer.sendAppData(
                   client,
                   data,
@@ -276,56 +276,66 @@ export class LoginServer extends EventEmitter {
               }
               break;
             case "CharacterLoginRequest":
-              let charactersLoginInfo: any;
-              const { serverId, characterId } = packet.result;
-              if (!this._soloMode) {
-                const { serverAddress } = await this._db
-                  .collection("servers")
-                  .findOne({ serverId: serverId });
-                charactersLoginInfo = {
-                  characterId: characterId,
-                  serverId: serverId,
-                  status: 1,
-                  unknown: 0,
-                  payload: {
-                    serverAddress: serverAddress, // zoneserver port
-                    serverTicket: "7y3Bh44sKWZCYZH",
-                    encryptionKey: this._cryptoKey,
-                    characterId: characterId,
-                    guid: 722776196,
-                    unknown2: 0,
-                    stationName: "nope0no",
-                    characterName: "LocalPlayer", // get character name from the characterID (ask db)
-                    loginQueuePlacement: 0,
-                  },
-                };
-              } else {
-                charactersLoginInfo = {
-                  characterId: characterId,
-                  serverId: serverId,
-                  status: 1,
-                  unknown: 0,
-                  payload: {
-                    serverAddress: "127.0.0.1:1117", // zoneserver port
-                    serverTicket: "7y3Bh44sKWZCYZH",
-                    encryptionKey: this._cryptoKey,
-                    characterId: characterId,
-                    guid: 722776196, 
-                    unknown2: 0,
-                    stationName: "nope0no",
-                    characterName: "LocalPlayer",
-                    loginQueuePlacement: 0,
-                  },
-                };
+              // let charactersLoginInfo: any;
+              // const { serverId, characterId } = packet.result;
+              // if (!this._soloMode) {
+              //   const { serverAddress } = await this._db
+              //     .collection("servers")
+              //     .findOne({ serverId: serverId });
+              //   charactersLoginInfo = {
+              //     characterId: characterId,
+              //     serverId: serverId,
+              //     status: 1,
+              //     unknown: 0,
+              //     payload: {
+              //       serverAddress: serverAddress, // zoneserver port
+              //       serverTicket: "7y3Bh44sKWZCYZH",
+              //       encryptionKey: this._cryptoKey,
+              //       characterId: characterId,
+              //       guid: 722776196,
+              //       unknown2: 0,
+              //       stationName: "nope0no",
+              //       characterName: "LocalPlayer", // get character name from the characterID (ask db)
+              //       loginQueuePlacement: 0,
+              //     },
+              //   };
+              // } else {
+              //   charactersLoginInfo = {
+              //     characterId: characterId,
+              //     serverId: serverId,
+              //     status: 1,
+              //     unknown: 0,
+              //     payload: {
+              //       serverAddress: "127.0.0.1:1117", // zoneserver port
+              //       serverTicket: "7y3Bh44sKWZCYZH",
+              //       encryptionKey: this._cryptoKey,
+              //       characterId: characterId,
+              //       guid: 722776196, 
+              //       unknown2: 0,
+              //       stationName: "nope0no",
+              //       characterName: "LocalPlayer",
+              //       loginQueuePlacement: 0,
+              //     },
+              //   };
+              // }
+              // debug(charactersLoginInfo);
+              // data = this._protocol.pack(
+              //   "CharacterLoginReply",
+              //   charactersLoginInfo
+              // );
+              // this._soeServer.sendAppData(client, data, true);
+              {
+                let rawdata = fs.readFileSync(`${__dirname}/../../../data/characterloginreply.json`, 'utf8');
+                let data = this._protocol.pack("CharacterLoginReply", JSON.parse(rawdata));
+                this._soeServer.sendAppData(
+                  client,
+                  data,
+                  true
+                );
+
+                debug("CharacterLoginRequest");
+                break;
               }
-              debug(charactersLoginInfo);
-              data = this._protocol.pack(
-                "CharacterLoginReply",
-                charactersLoginInfo
-              );
-              this._soeServer.sendAppData(client, data, true);
-              debug("CharacterLoginRequest");
-              break;
 
             case "CharacterCreateRequest":
               const reply_data = {

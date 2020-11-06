@@ -143,12 +143,12 @@ var LoginServer = /** @class */ (function (_super) {
             });
         }); });
         _this._soeServer.on("appdata", function (err, client, data) { return __awaiter(_this, void 0, void 0, function () {
-            var packet, result, data_1, _a, falsified_data, rawdata, data_2, rawdata, data_3, characters_delete_info, WaitSuccess, charactersLoginInfo, _b, serverId, characterId, serverAddress, reply_data, TestData;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var packet, result, data_1, _a, falsified_data, rawdata, data_2, rawdata, data_3, characters_delete_info, WaitSuccess, rawdata, data_4, reply_data, TestData;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         packet = this._protocol.parse(data);
-                        if (!(packet !== false)) return [3 /*break*/, 16];
+                        if (!(packet !== false)) return [3 /*break*/, 13];
                         result = packet.result;
                         _a = packet.name;
                         switch (_a) {
@@ -157,11 +157,11 @@ var LoginServer = /** @class */ (function (_super) {
                             case "ServerListRequest": return [3 /*break*/, 3];
                             case "CharacterDeleteRequest": return [3 /*break*/, 4];
                             case "CharacterLoginRequest": return [3 /*break*/, 8];
-                            case "CharacterCreateRequest": return [3 /*break*/, 12];
-                            case "TunnelAppPacketClientToServer": return [3 /*break*/, 13];
-                            case "Logout": return [3 /*break*/, 14];
+                            case "CharacterCreateRequest": return [3 /*break*/, 9];
+                            case "TunnelAppPacketClientToServer": return [3 /*break*/, 10];
+                            case "Logout": return [3 /*break*/, 11];
                         }
-                        return [3 /*break*/, 15];
+                        return [3 /*break*/, 12];
                     case 1:
                         falsified_data = {
                             loggedIn: true,
@@ -173,7 +173,7 @@ var LoginServer = /** @class */ (function (_super) {
                         };
                         data_1 = this._protocol.pack("LoginReply", falsified_data);
                         this._soeServer.sendAppData(client, data_1, true);
-                        _c.label = 2;
+                        _b.label = 2;
                     case 2:
                         // let CharactersInfo;
                         // if (this._soloMode) {
@@ -205,16 +205,16 @@ var LoginServer = /** @class */ (function (_super) {
                             this._soeServer.sendAppData(client, data_2, true);
                             debug("CharacterSelectInfoRequest");
                         }
-                        _c.label = 3;
+                        _b.label = 3;
                     case 3:
                         {
                             rawdata = fs_1.default.readFileSync(__dirname + "/../../../data/serverlist.json", 'utf8');
-                            data_3 = this._protocol.pack("ServerListRequest", JSON.parse(rawdata));
+                            data_3 = this._protocol.pack("ServerListReply", JSON.parse(rawdata));
                             this._soeServer.sendAppData(client, data_3, true);
                             debug("ServerListRequest");
-                            return [3 /*break*/, 15];
+                            return [3 /*break*/, 12];
                         }
-                        _c.label = 4;
+                        _b.label = 4;
                     case 4:
                         characters_delete_info = {
                             characterId: packet.result.characterId,
@@ -226,7 +226,7 @@ var LoginServer = /** @class */ (function (_super) {
                         debug("CharacterDeleteRequest");
                         if (!this._soloMode) return [3 /*break*/, 5];
                         debug("Deleting a character in solo mode is weird, modify single_player_character.json instead");
-                        return [3 /*break*/, 15];
+                        return [3 /*break*/, 12];
                     case 5: return [4 /*yield*/, this._db
                             .collection("characters")
                             .deleteOne({ characterId: packet.result.characterId }, function (err, obj) {
@@ -240,84 +240,89 @@ var LoginServer = /** @class */ (function (_super) {
                             }
                         })];
                     case 6:
-                        WaitSuccess = _c.sent();
-                        _c.label = 7;
-                    case 7: return [3 /*break*/, 15];
+                        WaitSuccess = _b.sent();
+                        _b.label = 7;
+                    case 7: return [3 /*break*/, 12];
                     case 8:
-                        charactersLoginInfo = void 0;
-                        _b = packet.result, serverId = _b.serverId, characterId = _b.characterId;
-                        if (!!this._soloMode) return [3 /*break*/, 10];
-                        return [4 /*yield*/, this._db
-                                .collection("servers")
-                                .findOne({ serverId: serverId })];
+                        // let charactersLoginInfo: any;
+                        // const { serverId, characterId } = packet.result;
+                        // if (!this._soloMode) {
+                        //   const { serverAddress } = await this._db
+                        //     .collection("servers")
+                        //     .findOne({ serverId: serverId });
+                        //   charactersLoginInfo = {
+                        //     characterId: characterId,
+                        //     serverId: serverId,
+                        //     status: 1,
+                        //     unknown: 0,
+                        //     payload: {
+                        //       serverAddress: serverAddress, // zoneserver port
+                        //       serverTicket: "7y3Bh44sKWZCYZH",
+                        //       encryptionKey: this._cryptoKey,
+                        //       characterId: characterId,
+                        //       guid: 722776196,
+                        //       unknown2: 0,
+                        //       stationName: "nope0no",
+                        //       characterName: "LocalPlayer", // get character name from the characterID (ask db)
+                        //       loginQueuePlacement: 0,
+                        //     },
+                        //   };
+                        // } else {
+                        //   charactersLoginInfo = {
+                        //     characterId: characterId,
+                        //     serverId: serverId,
+                        //     status: 1,
+                        //     unknown: 0,
+                        //     payload: {
+                        //       serverAddress: "127.0.0.1:1117", // zoneserver port
+                        //       serverTicket: "7y3Bh44sKWZCYZH",
+                        //       encryptionKey: this._cryptoKey,
+                        //       characterId: characterId,
+                        //       guid: 722776196, 
+                        //       unknown2: 0,
+                        //       stationName: "nope0no",
+                        //       characterName: "LocalPlayer",
+                        //       loginQueuePlacement: 0,
+                        //     },
+                        //   };
+                        // }
+                        // debug(charactersLoginInfo);
+                        // data = this._protocol.pack(
+                        //   "CharacterLoginReply",
+                        //   charactersLoginInfo
+                        // );
+                        // this._soeServer.sendAppData(client, data, true);
+                        {
+                            rawdata = fs_1.default.readFileSync(__dirname + "/../../../data/characterloginreply.json", 'utf8');
+                            data_4 = this._protocol.pack("CharacterLoginReply", JSON.parse(rawdata));
+                            this._soeServer.sendAppData(client, data_4, true);
+                            debug("CharacterLoginRequest");
+                            return [3 /*break*/, 12];
+                        }
+                        _b.label = 9;
                     case 9:
-                        serverAddress = (_c.sent()).serverAddress;
-                        charactersLoginInfo = {
-                            characterId: characterId,
-                            serverId: serverId,
-                            status: 1,
-                            unknown: 0,
-                            payload: {
-                                serverAddress: serverAddress,
-                                serverTicket: "7y3Bh44sKWZCYZH",
-                                encryptionKey: this._cryptoKey,
-                                characterId: characterId,
-                                guid: 722776196,
-                                unknown2: 0,
-                                stationName: "nope0no",
-                                characterName: "LocalPlayer",
-                                loginQueuePlacement: 0,
-                            },
-                        };
-                        return [3 /*break*/, 11];
-                    case 10:
-                        charactersLoginInfo = {
-                            characterId: characterId,
-                            serverId: serverId,
-                            status: 1,
-                            unknown: 0,
-                            payload: {
-                                serverAddress: "127.0.0.1:1117",
-                                serverTicket: "7y3Bh44sKWZCYZH",
-                                encryptionKey: this._cryptoKey,
-                                characterId: characterId,
-                                guid: 722776196,
-                                unknown2: 0,
-                                stationName: "nope0no",
-                                characterName: "LocalPlayer",
-                                loginQueuePlacement: 0,
-                            },
-                        };
-                        _c.label = 11;
-                    case 11:
-                        debug(charactersLoginInfo);
-                        data_1 = this._protocol.pack("CharacterLoginReply", charactersLoginInfo);
-                        this._soeServer.sendAppData(client, data_1, true);
-                        debug("CharacterLoginRequest");
-                        return [3 /*break*/, 15];
-                    case 12:
                         reply_data = {
                             status: 1,
                             characterId: "0x03147cca2a860191",
                         };
                         data_1 = this._protocol.pack("CharacterCreateReply", reply_data);
                         this._soeServer.sendAppData(client, data_1, true);
-                        return [3 /*break*/, 15];
-                    case 13:
+                        return [3 /*break*/, 12];
+                    case 10:
                         TestData = {
                             unknown1: true,
                         };
                         data_1 = this._protocol.pack("TunnelAppPacketServerToClient", TestData);
                         this._soeServer.sendAppData(client, data_1, true);
-                        return [3 /*break*/, 15];
-                    case 14:
+                        return [3 /*break*/, 12];
+                    case 11:
                         this._soeServer.deleteClient(client);
-                        _c.label = 15;
-                    case 15: return [3 /*break*/, 17];
-                    case 16:
+                        _b.label = 12;
+                    case 12: return [3 /*break*/, 14];
+                    case 13:
                         debug("Packet parsing was unsuccesful");
-                        _c.label = 17;
-                    case 17: return [2 /*return*/];
+                        _b.label = 14;
+                    case 14: return [2 /*return*/];
                 }
             });
         }); });
