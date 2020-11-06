@@ -19,10 +19,6 @@ var packets = [
             fields: [
                 { name: "sessionId", type: "string" },
                 { name: "systemFingerPrint", type: "string" },
-                { name: "Locale", type: "uint32", defaultValue: 0 },
-                { name: "ThirdPartyAuthTicket", type: "uint32", defaultValue: 0 },
-                { name: "ThirdPartyUserId", type: "uint32", defaultValue: 0 },
-                { name: "ThirdPartyId", type: "uint32", defaultValue: 0 },
             ],
         },
     ],
@@ -307,7 +303,6 @@ var packets = [
                                                 { name: "clientUseRequirementId", type: "uint32" },
                                                 { name: "overrideAppearance", type: "string" },
                                                 { name: "unknownDword19", type: "uint32" },
-                                                { name: "clientUseRequirementId2", type: "uint32" },
                                             ],
                                         },
                                     ],

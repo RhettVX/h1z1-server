@@ -15,6 +15,7 @@ import { EventEmitter } from "events";
 const SOEServer = require("../SoeServer/soeserver").SOEServer;
 import { LoginProtocol } from "../../protocols/loginprotocol";
 const debug = require("debug")("LoginServer");
+import fs from "fs";
 import { MongoClient } from "mongodb";
 
 interface SoeServer {
@@ -126,35 +127,45 @@ export class LoginServer extends EventEmitter {
     this._soeServer.on(
       "SendServerUpdate",
       async (err: string, client: Client) => {
-        let servers;
-        if (!this._soloMode) {
-          servers = await this._db.collection("servers").find().toArray();
-        } else {
-          servers = [
-            {
-              serverId: 1,
-              serverState: 0,
-              locked: false,
-              name: "fuckdb",
-              nameId: 1,
-              description: "yeah",
-              descriptionId: 1,
-              reqFeatureId: 0,
-              serverInfo:
-                'Region="CharacterCreate.RegionUs" PingAddress="127.0.0.1:1117" Subregion="UI.SubregionUS" IsRecommended="1" IsRecommendedVS="0" IsRecommendedNC="0" IsRecommendedTR="0"',
-              populationLevel: 1,
-              populationData:
-                'ServerCapacity="0" PingAddress="127.0.0.1:1117" Rulesets="Permadeath"',
-              allowedAccess: true,
-            },
-          ];
-        }
-        for (var i = 0; i < servers.length; i++) {
-          if (servers[i]._id) {
-            delete servers[i]._id;
-          }
-          var data = this._protocol.pack("ServerUpdate", servers[i]);
-          this._soeServer.sendAppData(client, data, true);
+        // let servers;
+        // if (!this._soloMode) {
+        //   servers = await this._db.collection("servers").find().toArray();
+        // } else {
+        //   servers = [
+        //     {
+        //       serverId: 1,
+        //       serverState: 0,
+        //       locked: false,
+        //       name: "fuckdb",
+        //       nameId: 1,
+        //       description: "yeah",
+        //       descriptionId: 1,
+        //       reqFeatureId: 0,
+        //       serverInfo:
+        //         'Region="CharacterCreate.RegionUs" PingAddress="127.0.0.1:1117" Subregion="UI.SubregionUS" IsRecommended="1" IsRecommendedVS="0" IsRecommendedNC="0" IsRecommendedTR="0"',
+        //       populationLevel: 1,
+        //       populationData:
+        //         'ServerCapacity="0" PingAddress="127.0.0.1:1117" Rulesets="Permadeath"',
+        //       allowedAccess: true,
+        //     },
+        //   ];
+        // }
+        // for (var i = 0; i < servers.length; i++) {
+        //   if (servers[i]._id) {
+        //     delete servers[i]._id;
+        //   }
+        //   var data = this._protocol.pack("ServerUpdate", servers[i]);
+        //   this._soeServer.sendAppData(client, data, true);
+        // }
+        {
+          let rawdata = fs.readFileSync(`${__dirname}/../../../data/serverlist.json`, 'utf8');
+          let data = this._protocol.pack("ServerUpdate", JSON.parse(rawdata));
+          this._soeServer.sendAppData(
+            client,
+            data,
+            true
+          );
+          debug("SendServerUpdate");
         }
       }
     );
@@ -180,52 +191,52 @@ export class LoginServer extends EventEmitter {
               data = this._protocol.pack("LoginReply", falsified_data);
               this._soeServer.sendAppData(client, data, true);
             case "CharacterSelectInfoRequest":
-              let CharactersInfo;
-              if (this._soloMode) {
-                const SinglePlayerCharacter = require("../../../data/single_player_character.json");
-                CharactersInfo = {
-                  status: 1,
-                  canBypassServerLock: true,
-                  characters: [SinglePlayerCharacter],
-                };
-              } else {
-                const characters = await this._db
-                  .collection("characters")
-                  .find()
-                  .toArray();
-                CharactersInfo = {
-                  status: 1,
-                  canBypassServerLock: true,
-                  characters: characters,
-                };
+              // let CharactersInfo;
+              // if (this._soloMode) {
+              //   const SinglePlayerCharacter = require("../../../data/single_player_character.json");
+              //   CharactersInfo = {
+              //     status: 1,
+              //     canBypassServerLock: true,
+              //     characters: [SinglePlayerCharacter],
+              //   };
+              // } else {
+              //   const characters = await this._db
+              //     .collection("characters")
+              //     .find()
+              //     .toArray();
+              //   CharactersInfo = {
+              //     status: 1,
+              //     canBypassServerLock: true,
+              //     characters: characters,
+              //   };
+              // }
+              // data = this._protocol.pack(
+              //   "CharacterSelectInfoReply",
+              //   CharactersInfo
+              // );
+              // this._soeServer.sendAppData(client, data, true);
+              {
+                let rawdata = fs.readFileSync(`${__dirname}/../../../data/characterinfo.json`, 'utf8');
+                let data = this._protocol.pack("CharacterSelectInfoReply", JSON.parse(rawdata));
+                this._soeServer.sendAppData(
+                  client,
+                  data,
+                  true
+                );
+                debug("CharacterSelectInfoRequest");
               }
-              data = this._protocol.pack(
-                "CharacterSelectInfoReply",
-                CharactersInfo
-              );
-              this._soeServer.sendAppData(client, data, true);
-              debug("CharacterSelectInfoRequest");
             case "ServerListRequest":
-              let servers;
-              if (!this._soloMode) {
-                servers = await this._db.collection("servers").find().toArray();
-              } else {
-                if (this._soloMode) {
-                  const SoloServer = require("../../../data/single_player_server.json");
-                  servers = [SoloServer];
-                }
+              {
+                let rawdata = fs.readFileSync(`${__dirname}/../../../data/serverlist.json`, 'utf8');
+                let data = this._protocol.pack("ServerListRequest", JSON.parse(rawdata));
+                this._soeServer.sendAppData(
+                  client,
+                  data,
+                  true
+                );
+                debug("ServerListRequest");
+                break;
               }
-              for (var i = 0; i < servers.length; i++) {
-                if (servers[i]._id) {
-                  delete servers[i]._id;
-                }
-              }
-              data = this._protocol.pack("ServerListReply", {
-                servers: servers,
-              });
-              this._soeServer.sendAppData(client, data, true);
-
-              break;
 
             case "CharacterDeleteRequest":
               const characters_delete_info: any = {
