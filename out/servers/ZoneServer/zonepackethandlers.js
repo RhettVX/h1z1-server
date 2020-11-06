@@ -98,6 +98,7 @@ var packetHandlers = {
         });
         server.sendRawData(client, fs.readFileSync(__dirname + "/../../../data/PointOfInterestDefinitionReply.dat"));
         server.sendData(client, "ZoneDoneSendingInitialData", {});
+        debug("ZoneDoneSendingInitialData");
         var commands = [
             "hax",
             "ammo",

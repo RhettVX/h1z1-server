@@ -202,25 +202,33 @@ export class ZoneServer extends EventEmitter {
           fs.readFileSync(`${__dirname}/../../../data/ClientUpdateZonePopulation.dat`)
         );
 
-        this.sendData(client, "ClientUpdate.RespawnLocations", {
-          unknownFlags: 0,
-          locations: [],
-          unknownDword1: 0,
-          unknownDword2: 0,
-          locations2: [],
-        });
+        // this.sendData(client, "ClientUpdate.RespawnLocations", {
+        //   unknownFlags: 0,
+        //   locations: [],
+        //   unknownDword1: 0,
+        //   unknownDword2: 0,
+        //   locations2: [],
+        // });
+        this.sendRawData(
+          client,
+          fs.readFileSync(`${__dirname}/../../../data/ClientUpdateRespawnLocations.dat`)
+        );
 
-        this.sendData(client, "ClientGameSettings", {
-          unknownDword1: 0,
-          unknownDword2: 7,
-          unknownBoolean1: true,
-          timescale: 1,
-          unknownDword3: 1,
-          unknownDword4: 1,
-          unknownDword5: 0,
-          unknownFloat2: 12,
-          unknownFloat3: 110,
-        });
+        // this.sendData(client, "ClientGameSettings", {
+        //   unknownDword1: 0,
+        //   unknownDword2: 7,
+        //   unknownBoolean1: true,
+        //   timescale: 1,
+        //   unknownDword3: 1,
+        //   unknownDword4: 1,
+        //   unknownDword5: 0,
+        //   unknownFloat2: 12,
+        //   unknownFloat3: 110,
+        // });
+        this.sendRawData(
+          client,
+          fs.readFileSync(`${__dirname}/../../../data/ClientGameSettings.dat`)
+        );
 
         var self = require("../../../data/sendself.json");
         client.character.guid = self.data.guid;

@@ -161,6 +161,7 @@ var packetHandlers = {
     );
     
     server.sendData(client, "ZoneDoneSendingInitialData", {});
+    debug("ZoneDoneSendingInitialData");
 
     var commands = [
       "hax",

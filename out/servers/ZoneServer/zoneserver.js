@@ -152,24 +152,26 @@ var ZoneServer = /** @class */ (function (_super) {
                 //   populations: [0, 0],
                 // });
                 _this.sendRawData(client, fs_1.default.readFileSync(__dirname + "/../../../data/ClientUpdateZonePopulation.dat"));
-                _this.sendData(client, "ClientUpdate.RespawnLocations", {
-                    unknownFlags: 0,
-                    locations: [],
-                    unknownDword1: 0,
-                    unknownDword2: 0,
-                    locations2: [],
-                });
-                _this.sendData(client, "ClientGameSettings", {
-                    unknownDword1: 0,
-                    unknownDword2: 7,
-                    unknownBoolean1: true,
-                    timescale: 1,
-                    unknownDword3: 1,
-                    unknownDword4: 1,
-                    unknownDword5: 0,
-                    unknownFloat2: 12,
-                    unknownFloat3: 110,
-                });
+                // this.sendData(client, "ClientUpdate.RespawnLocations", {
+                //   unknownFlags: 0,
+                //   locations: [],
+                //   unknownDword1: 0,
+                //   unknownDword2: 0,
+                //   locations2: [],
+                // });
+                _this.sendRawData(client, fs_1.default.readFileSync(__dirname + "/../../../data/ClientUpdateRespawnLocations.dat"));
+                // this.sendData(client, "ClientGameSettings", {
+                //   unknownDword1: 0,
+                //   unknownDword2: 7,
+                //   unknownBoolean1: true,
+                //   timescale: 1,
+                //   unknownDword3: 1,
+                //   unknownDword4: 1,
+                //   unknownDword5: 0,
+                //   unknownFloat2: 12,
+                //   unknownFloat3: 110,
+                // });
+                _this.sendRawData(client, fs_1.default.readFileSync(__dirname + "/../../../data/ClientGameSettings.dat"));
                 var self = require("../../../data/sendself.json");
                 client.character.guid = self.data.guid;
                 client.character.loadouts = self.data.characterLoadoutData.loadouts;
