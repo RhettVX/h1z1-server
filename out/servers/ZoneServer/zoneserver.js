@@ -66,6 +66,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ZoneServer = void 0;
 var events_1 = require("events");
 var gatewayserver_1 = require("../GatewayServer/gatewayserver");
+var fs_1 = __importDefault(require("fs"));
 var zonepackethandlers_1 = __importDefault(require("./zonepackethandlers"));
 var h1z1protocol_1 = require("../../protocols/h1z1protocol");
 // import {MongoClient} from "mongodb"
@@ -125,93 +126,126 @@ var ZoneServer = /** @class */ (function (_super) {
                 fs.readFileSync(
                   `${__dirname}/data/zone/ReferenceData.WeaponDefinitions.dat`
                 )*/
-                _this.sendData(client, "InitializationParameters", {
-                    environment: "local",
-                    serverId: 1,
-                });
-                /*
-                var itemData = fs.readFileSync(
-                  `${__dirname}../../../data/ClientItemDefinitions.txt`, // TODO : fix this path
-                    "utf8"
-                  ),
-                  itemLines = itemData.split("\n"),
-                  items = {};
-                for (var i = 1; i < itemLines.length; i++) {
-                  var line = itemLines[i].split("^");
-                  if (line[0]) {
-                    (items as any)[line[0]] = line[1];
-                  }
+                {
+                    var rawdata = fs_1.default.readFileSync(__dirname + "/../../../data/zone/ReferenceData.WeaponDefinitions.dat");
+                    _this.sendRawData(client, rawdata);
+                    debug("ReferenceData.WeaponDefinitions");
                 }
-                const referenceData = { itemTypes: items };
-                this.setReferenceData(referenceData);
-                */
-                _this.sendData(client, "SendZoneDetails", {
-                    zoneName: "Z1",
-                    unknownBoolean1: true,
-                    zoneType: 4,
-                    unknownFloat1: 1,
-                    skyData: {
-                        name: "sky",
-                        unknownDword1: 0,
-                        unknownDword2: 0,
-                        unknownDword3: 0,
-                        fog: 0,
-                        unknownDword5: 0,
-                        unknownDword6: 0,
-                        unknownDword7: 0,
-                        unknownDword8: 0,
-                        temperature: 40,
-                        unknownDword10: 0,
-                        unknownDword11: 0,
-                        unknownDword12: 0,
-                        unknownDword13: 0,
-                        unknownDword14: 0,
-                        unknownDword15: 0,
-                        unknownDword16: 0,
-                        unknownDword17: 0,
-                        unknownDword18: 0,
-                        unknownDword19: 0,
-                        unknownDword20: 0,
-                        unknownDword21: 0,
-                        unknownDword22: 0,
-                        unknownDword23: 0,
-                        unknownDword24: 0,
-                        unknownDword25: 0,
-                        unknownArray: [],
-                    },
-                    zoneId1: 3905829720,
-                    zoneId2: 3905829720,
-                    nameId: 7699,
-                    unknownBoolean7: true,
-                });
-                _this.sendData(client, "ClientUpdate.ZonePopulation", {
-                    populations: [0, 0],
-                });
-                _this.sendData(client, "ClientUpdate.RespawnLocations", {
-                    unknownFlags: 0,
-                    locations: [],
-                    unknownDword1: 0,
-                    unknownDword2: 0,
-                    locations2: [],
-                });
-                _this.sendData(client, "ClientGameSettings", {
-                    unknownDword1: 0,
-                    unknownDword2: 7,
-                    unknownBoolean1: true,
-                    timescale: 1,
-                    unknownDword3: 1,
-                    unknownDword4: 1,
-                    unknownDword5: 0,
-                    unknownFloat2: 12,
-                    unknownFloat3: 110,
-                });
-                var self = require("../../../data/sendself.json");
-                client.character.guid = self.data.guid;
-                client.character.loadouts = self.data.characterLoadoutData.loadouts;
-                client.character.inventory = self.data.inventory;
-                client.character.factionId = self.data.factionId;
-                client.character.name = self.data.identity.characterName;
-                _this.sendData(client, "SendSelfToClient", self);
+                // this.sendData(client, "InitializationParameters", {
+                //   environment: "local",
+                //   serverId: 1,
+                // });
+                {
+                    var rawdata = fs_1.default.readFileSync(__dirname + "/../../../data/zone/InitializationParameters.dat");
+                    _this.sendRawData(client, rawdata);
+                    debug("InitializationParameters");
+                }
+                var itemData = fs_1.default.readFileSync(__dirname + "/../../../data/ClientItemDefinitions.txt", "utf8"), itemLines = itemData.split("\n"), items = {};
+                for (var i = 1; i < itemLines.length; i++) {
+                    var line = itemLines[i].split("^");
+                    if (line[0]) {
+                        items[line[0]] = line[1];
+                    }
+                }
+                var referenceData = { itemTypes: items };
+                _this.setReferenceData(referenceData);
+                // this.sendData(client, "SendZoneDetails", {
+                //   zoneName: "Z1",
+                //   unknownBoolean1: true,
+                //   zoneType: 4,
+                //   unknownFloat1: 1,
+                //   skyData: {
+                //     name: "sky",
+                //     unknownDword1: 0,
+                //     unknownDword2: 0,
+                //     unknownDword3: 0,
+                //     fog: 0, // fog intensity
+                //     unknownDword5: 0,
+                //     unknownDword6: 0,
+                //     unknownDword7: 0,
+                //     unknownDword8: 0,
+                //     temperature: 40, // 0 : snow map , 40+ : spring map
+                //     unknownDword10: 0,
+                //     unknownDword11: 0,
+                //     unknownDword12: 0,
+                //     unknownDword13: 0,
+                //     unknownDword14: 0,
+                //     unknownDword15: 0,
+                //     unknownDword16: 0, // sun orientation on x axis ???
+                //     unknownDword17: 0, // night when 100
+                //     unknownDword18: 0,
+                //     unknownDword19: 0,
+                //     unknownDword20: 0,
+                //     unknownDword21: 0,
+                //     unknownDword22: 0,
+                //     unknownDword23: 0,
+                //     unknownDword24: 0,
+                //     unknownDword25: 0,
+                //     unknownArray: [],
+                //   },
+                //   zoneId1: 3905829720,
+                //   zoneId2: 3905829720,
+                //   nameId: 7699,
+                //   unknownBoolean7: true,
+                // });
+                {
+                    var rawdata = fs_1.default.readFileSync(__dirname + "/../../../data/zone/SendZoneDetails.dat");
+                    _this.sendRawData(client, rawdata);
+                    debug("SendZoneDetails");
+                }
+                // this.sendData(client, "ClientUpdate.ZonePopulation", {
+                //   populations: [0, 0],
+                // });
+                {
+                    var rawdata = fs_1.default.readFileSync(__dirname + "/../../../data/zone/ClientUpdateZonePopulation.dat");
+                    _this.sendRawData(client, rawdata);
+                    debug("ClientUpdateZonePopulation");
+                }
+                // this.sendData(client, "ClientUpdate.RespawnLocations", {
+                //   unknownFlags: 0,
+                //   locations: [],
+                //   unknownDword1: 0,
+                //   unknownDword2: 0,
+                //   locations2: [],
+                // });
+                {
+                    var rawdata = fs_1.default.readFileSync(__dirname + "/../../../data/zone/ClientUpdateRespawnLocations.dat");
+                    _this.sendRawData(client, rawdata);
+                    debug("ClientUpdateRespawnLocations");
+                }
+                // this.sendData(client, "ClientGameSettings", {
+                //   unknownDword1: 0,
+                //   unknownDword2: 7,
+                //   unknownBoolean1: true,
+                //   timescale: 1,
+                //   unknownDword3: 1,
+                //   unknownDword4: 1,
+                //   unknownDword5: 0,
+                //   unknownFloat2: 12,
+                //   unknownFloat3: 110,
+                // });
+                {
+                    var rawdata = fs_1.default.readFileSync(__dirname + "/../../../data/zone/ClientGameSettings.dat");
+                    _this.sendRawData(client, rawdata);
+                    debug("ClientGameSettings");
+                }
+                // var self = require("../../../data/sendself.json");
+                // client.character.guid = self.data.guid;
+                // client.character.loadouts = self.data.characterLoadoutData.loadouts;
+                // client.character.inventory = self.data.inventory;
+                // client.character.factionId = self.data.factionId;
+                // client.character.name = self.data.identity.characterName;
+                {
+                    var rawdata = fs_1.default.readFileSync(__dirname + "/../../../data/sendself.json", 'utf8');
+                    var self_1 = JSON.parse(rawdata);
+                    client.character.guid = self_1.data.guid;
+                    client.character.loadouts = self_1.data.characterLoadoutData.loadouts;
+                    client.character.inventory = self_1.data.inventory;
+                    client.character.factionId = self_1.data.factionId;
+                    client.character.name = self_1.data.identity.characterName;
+                    _this.sendData(client, "SendSelfToClient", self_1);
+                }
+                // this.sendData(client, "SendSelfToClient", self);
                 _this.sendData(client, "PlayerUpdate.SetBattleRank", {
                     characterId: client.character.characterId,
                     battleRank: 100,
