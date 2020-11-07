@@ -149,6 +149,7 @@ var ZoneServer = /** @class */ (function (_super) {
                 }
                 var referenceData = { itemTypes: items };
                 _this.setReferenceData(referenceData);
+                debug("ClientItemDefinitions");
                 // this.sendData(client, "SendZoneDetails", {
                 //   zoneName: "Z1",
                 //   unknownBoolean1: true,
@@ -244,12 +245,14 @@ var ZoneServer = /** @class */ (function (_super) {
                     client.character.factionId = self_1.data.factionId;
                     client.character.name = self_1.data.identity.characterName;
                     _this.sendData(client, "SendSelfToClient", self_1);
+                    debug("SendSelfToClient");
                 }
                 // this.sendData(client, "SendSelfToClient", self);
                 _this.sendData(client, "PlayerUpdate.SetBattleRank", {
                     characterId: client.character.characterId,
                     battleRank: 100,
                 });
+                debug("PlayerUpdate.SetBattleRank");
             }
         });
         _this._gatewayServer.on("login", function (err, client, characterId) {
@@ -267,8 +270,8 @@ var ZoneServer = /** @class */ (function (_super) {
                 state: {
                     position: [0, 0, 0, 0],
                     rotation: [0, 0, 0, 0],
-                    health: 0,
-                    shield: 0,
+                    health: 500,
+                    shield: 500,
                 },
                 client: client,
             };

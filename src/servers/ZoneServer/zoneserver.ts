@@ -192,6 +192,7 @@ export class ZoneServer extends EventEmitter {
         }
         const referenceData = { itemTypes: items };
         this.setReferenceData(referenceData);
+        debug("ClientItemDefinitions");
 
         // this.sendData(client, "SendZoneDetails", {
         //   zoneName: "Z1",
@@ -310,6 +311,8 @@ export class ZoneServer extends EventEmitter {
             "SendSelfToClient",
             self
           );
+
+          debug("SendSelfToClient");
         }
         // this.sendData(client, "SendSelfToClient", self);
 
@@ -317,6 +320,7 @@ export class ZoneServer extends EventEmitter {
           characterId: client.character.characterId,
           battleRank: 100,
         });
+        debug("PlayerUpdate.SetBattleRank");
       }
     });
 

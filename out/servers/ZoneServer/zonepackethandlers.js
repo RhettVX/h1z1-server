@@ -19,6 +19,7 @@ function Int64String(value) {
 }
 var packetHandlers = {
     ClientIsReady: function (server, client, packet) {
+        debug("#################### I'M HERE #####################");
         // server.sendData(client, "ClientBeginZoning", {
         //   zoneName: "Z1",
         //   zoneType: 4,
@@ -1961,6 +1962,7 @@ var packetHandlers = {
     },
     "ProfileStats.GetPlayerProfileStats": function (server, client, packet) {
         server.sendData(client, "ProfileStats.PlayerProfileStats", require("../../../data/profilestats.json"));
+        debug("ProfileStats.PlayerProfileStats");
     },
     GetRewardBuffInfo: function (server, client, packet) {
         server.sendData(client, "RewardBuffInfo", {});
