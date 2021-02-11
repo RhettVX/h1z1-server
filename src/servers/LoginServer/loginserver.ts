@@ -92,6 +92,7 @@ export class LoginServer extends EventEmitter {
           let data: Buffer;
           switch (packet.name) {
             case "LoginRequest":
+              debug("LoginRequest START");
               const falsified_data = {
                 loggedIn: true,
                 status: 1,
@@ -102,8 +103,11 @@ export class LoginServer extends EventEmitter {
               };
               data = this._protocol.pack("LoginReply", falsified_data);
               this._soeServer.sendAppData(client, data, true);
-              if (this._protocol.protocolName !== "LoginUdp_11") break;
+              debug("LoginRequest END");
+              // if (this._protocol.protocolName !== "LoginUdp_11") break;
+
             case "CharacterSelectInfoRequest":
+              debug("CharacterSelectInfoRequest START");
               let CharactersInfo;
               if (this._soloMode) {
                 const SinglePlayerCharacter = require("../../../data/single_player_character.json");
@@ -128,9 +132,11 @@ export class LoginServer extends EventEmitter {
                 CharactersInfo
               );
               this._soeServer.sendAppData(client, data, true);
-              debug("CharacterSelectInfoRequest");
-              if (this._protocol.protocolName !== "LoginUdp_11") break;
+              debug("CharacterSelectInfoRequest END");
+              // if (this._protocol.protocolName !== "LoginUdp_11") break;
+
             case "ServerListRequest":
+              debug("ServerListRequest START");
               let servers;
               if (!this._soloMode) {
                 servers = await this._db.collection("servers").find().toArray();
@@ -149,7 +155,7 @@ export class LoginServer extends EventEmitter {
                 servers: servers,
               });
               this._soeServer.sendAppData(client, data, true);
-
+              debug("ServerListRequest END");
               break;
 
             case "CharacterDeleteRequest":

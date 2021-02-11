@@ -20,6 +20,9 @@ export class LoginProtocol {
     this.protocolName = protocolName;
     // Maybe will remove this switch later
     switch (this.protocolName) {
+      case "LoginUdp_6":
+        this.LoginPackets = require("../packets/LoginUdp/LoginUdp_6/loginpackets");
+        break;
       case "LoginUdp_9":
         this.LoginPackets = require("../packets/LoginUdp/LoginUdp_9/loginpackets");
         break;
