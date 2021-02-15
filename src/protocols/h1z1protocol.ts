@@ -44,8 +44,11 @@ export class H1Z1Protocol {
     this.protocolName = protocolName;
     // Maybe will remove this switch later
     switch (this.protocolName) {
-      case "ClientProtocol_703": // ps2 admin client 2013
+      case "ClientProtocol_703": // 2013ish
         this.H1Z1Packets = require("../packets/ClientProtocol/ClientProtocol_703/h1z1packets");
+        break;
+      case "ClientProtocol_852": // 2015ish
+        this.H1Z1Packets = require("../packets/ClientProtocol/ClientProtocol_852/h1z1packets");
         break;
       case "ClientProtocol_860": // normal client from 15 january 2015
         this.H1Z1Packets = require("../packets/ClientProtocol/ClientProtocol_860/h1z1packets");

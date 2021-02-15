@@ -20,10 +20,10 @@ export class LoginProtocol {
     this.protocolName = protocolName;
     // Maybe will remove this switch later
     switch (this.protocolName) {
-      case "LoginUdp_6":
+      case "LoginUdp_6": // 2013ish
         this.LoginPackets = require("../packets/LoginUdp/LoginUdp_6/loginpackets");
         break;
-      case "LoginUdp_9":
+      case "LoginUdp_9": // 2015ish
         this.LoginPackets = require("../packets/LoginUdp/LoginUdp_9/loginpackets");
         break;
       case "LoginUdp_11":
@@ -41,6 +41,7 @@ export class LoginProtocol {
     if (packet) {
       if (packet.schema) {
         debug(packet.name);
+        require("fs").writeFileSync(packet.name + '.bin', data);
         result = DataSchema.parse(packet.schema, data, 1, undefined).result;
         debug("[DEBUG] Packet receive :");
         debug(result);

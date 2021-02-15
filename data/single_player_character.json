@@ -1,6 +1,6 @@
 {
   "characterId": "0x03147cca2a860191",
-  "serverId": 1,
+  "serverId": 101,
   "lastLoginDate": "0x0000000053da0a5b",
   "nullField": 0,
   "status": 1,
@@ -9,10 +9,10 @@
     "empireId": 2,
     "battleRank": 100,
     "nextBattleRankPercent": 0,
-    "headId": 1,
-    "modelId": 9240,
-    "gender": 1,
-    "profileId": 4,
+    "headId": 5,
+    "modelId": 174,
+    "gender": 2,
+    "profileId": 22,
     "unknownDword1": 1,
     "loadoutData": {
       "loadoutId": 3,

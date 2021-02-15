@@ -86,6 +86,7 @@ export class LoginServer extends EventEmitter {
       "appdata",
       async (err: string, client: Client, data: Buffer) => {
         const packet: any = this._protocol.parse(data);
+        // require("fs").writeFileSync('lastpacket.bin', data);
         if (packet !== false) {
           // if packet parsing succeed
           const result = packet.result;
@@ -104,7 +105,7 @@ export class LoginServer extends EventEmitter {
               data = this._protocol.pack("LoginReply", falsified_data);
               this._soeServer.sendAppData(client, data, true);
               debug("LoginRequest END");
-              // if (this._protocol.protocolName !== "LoginUdp_11") break;
+              if (this._protocol.protocolName !== "LoginUdp_11") break;
 
             case "CharacterSelectInfoRequest":
               debug("CharacterSelectInfoRequest START");
@@ -133,7 +134,7 @@ export class LoginServer extends EventEmitter {
               );
               this._soeServer.sendAppData(client, data, true);
               debug("CharacterSelectInfoRequest END");
-              // if (this._protocol.protocolName !== "LoginUdp_11") break;
+              if (this._protocol.protocolName !== "LoginUdp_11") break;
 
             case "ServerListRequest":
               debug("ServerListRequest START");
@@ -196,8 +197,11 @@ export class LoginServer extends EventEmitter {
               }
               break;
             case "CharacterLoginRequest":
+              debug("CharacterLoginRequest START");
               let charactersLoginInfo: any;
-              const { serverId, characterId } = packet.result;
+              // const { serverId, characterId } = packet.result;
+              const serverId = 101;
+              const characterId = "0x03147cca2a860191";
               if (!this._soloMode) {
                 const { serverAddress } = await this._db
                   .collection("servers")
@@ -225,17 +229,17 @@ export class LoginServer extends EventEmitter {
                   serverId: serverId,
                   lastLogin: 1406824518,
                   status: 1,
-                  applicationData: {
-                    serverAddress: "127.0.0.1:1117", // zoneserver port
-                    serverTicket: "7y3Bh44sKWZCYZH",
-                    encryptionKey: this._cryptoKey,
-                    characterId: characterId,
-                    guid: 722776196,
-                    unknown2: 0,
-                    stationName: "nope0no",
-                    characterName: "LocalPlayer",
-                    loginQueuePlacement: 0,
-                  },
+                  applicationData: "<CharacterLoginReply GatewayAddress=\"127.0.0.1:1117\"GatewayTicket=\"7y3Bh44sKWZCYZH\"CharacterGuid=\"722776196\"StationId=\"0\"StationName=\"nope0no\"CharacterName=\"LocalPlayer\"ExitURL=\"\"></CharacterLoginReply>"//{
+                    // serverAddress: "127.0.0.1:1117", // zoneserver port
+                    // serverTicket: "7y3Bh44sKWZCYZH",
+                    // encryptionKey: this._cryptoKey,
+                    // characterId: characterId,
+                    // guid: 722776196,
+                    // unknown2: 0,
+                    // stationName: "nope0no",
+                    // characterName: "LocalPlayer",
+                    // loginQueuePlacement: 0,
+                  // },
                 };
               }
               debug(charactersLoginInfo);
@@ -244,7 +248,7 @@ export class LoginServer extends EventEmitter {
                 charactersLoginInfo
               );
               this._soeServer.sendAppData(client, data, true);
-              debug("CharacterLoginRequest");
+              debug("CharacterLoginRequest END");
               break;
 
             case "CharacterCreateRequest":
