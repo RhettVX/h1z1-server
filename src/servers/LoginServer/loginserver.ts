@@ -100,7 +100,7 @@ export class LoginServer extends EventEmitter {
                 isMember: true,
                 // isInternal: true,
                 // namespace: "soe",
-                ApplicationPayload: "",
+                applicationPayload: "",
               };
               data = this._protocol.pack("LoginReply", falsified_data);
               this._soeServer.sendAppData(client, data, true);

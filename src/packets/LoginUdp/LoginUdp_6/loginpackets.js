@@ -37,7 +37,7 @@ const packets = [
         { name: "isMember", type: "boolean" },
         // { name: "isInternal", type: "boolean" },
         // { name: "namespace", type: "string" },
-        { name: "ApplicationPayload", type: "byteswithlength" },
+        { name: "applicationPayload", type: "byteswithlength" },
       ],
     },
   ],
@@ -110,12 +110,12 @@ const packets = [
     0x08,
     {
       fields: [
-        { name: "characterId", type: "uint64" },
+        { name: "entityKey", type: "uint64" },
         { name: "serverId", type: "uint32" },
-        { name: "lastLogin", type: "uint32" },
+        // { name: "lastLogin", type: "uint32" },
         { name: "status", type: "uint32" },
         {
-          name: "applicationData",
+          name: "payload",
           type: "byteswithlength",
           fields: [
             { name: "serverAddress", type: "string" },
