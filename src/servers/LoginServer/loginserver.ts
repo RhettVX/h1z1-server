@@ -98,8 +98,8 @@ export class LoginServer extends EventEmitter {
                 loggedIn: true,
                 status: 1,
                 isMember: true,
-                isInternal: true,
-                namespace: "soe",
+                // isInternal: true,
+                // namespace: "soe",
                 ApplicationPayload: "",
               };
               data = this._protocol.pack("LoginReply", falsified_data);
@@ -115,7 +115,7 @@ export class LoginServer extends EventEmitter {
                 CharactersInfo = {
                   status: 1,
                   canBypassServerLock: true,
-                  characters: [SinglePlayerCharacter],
+                  entities: [SinglePlayerCharacter],
                 };
               } else {
                 const characters = await this._db

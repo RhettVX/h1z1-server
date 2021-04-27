@@ -3,10 +3,10 @@
   "serverId": 101,
   "lastLoginDate": "0x0000000053da0a5b",
   "nullField": 0,
-  "status": 1,
+  "unk": 1,
   "payload": {
     "name": "LocalPlayer",
-    "empireId": 2,
+    "empireId": 1,
     "battleRank": 100,
     "nextBattleRankPercent": 0,
     "headId": 5,
@@ -15,7 +15,7 @@
     "profileId": 22,
     "unknownDword1": 1,
     "loadoutData": {
-      "loadoutId": 3,
+      "loadoutId": 20,
       "unknownData1": {
         "unknownDword1": 22,
         "unknownByte1": 1

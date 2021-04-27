@@ -35,8 +35,8 @@ const packets = [
         { name: "loggedIn", type: "boolean" },
         { name: "status", type: "uint32" },
         { name: "isMember", type: "boolean" },
-        { name: "isInternal", type: "boolean" },
-        { name: "namespace", type: "string" },
+        // { name: "isInternal", type: "boolean" },
+        // { name: "namespace", type: "string" },
         { name: "ApplicationPayload", type: "byteswithlength" },
       ],
     },
@@ -165,14 +165,15 @@ const packets = [
         { name: "status", type: "uint32" },
         { name: "canBypassServerLock", type: "boolean" },
         {
-          name: "characters",
+          name: "entities",
           type: "array",
           fields: [
             { name: "characterId", type: "uint64" },
             { name: "serverId", type: "uint32" },
+            // { name: "status", type: "uint32" },
             { name: "lastLoginDate", type: "uint64" },
             { name: "nullField", type: "uint32" },
-            { name: "status", type: "uint32" },
+            { name: "unk", type: "uint32" },
             {
               name: "payload",
               type: "byteswithlength",
